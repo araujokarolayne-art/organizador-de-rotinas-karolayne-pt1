@@ -1,0 +1,264 @@
+/* ==========================================================================
+   Configurações Globais & Tema Escuro
+   ========================================================================== */
+:root {
+    --bg-color: #0b0c10;
+    --card-bg: rgba(22, 24, 34, 0.85);
+    --text-primary: #ffffff;
+    --text-secondary: #c5c6c7;
+    
+    /* Cores Pastel 3D */
+    --pastel-blue: #a2d2ff;
+    --pastel-green: #b7e4c7;
+    --pastel-pink: #ffafcc;
+    
+    --transition-speed: 0.4s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   Fundo 3D Moderno (Objetos Tridimensionais)
+   ========================================================================== */
+.bg-3d-scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    perspective: 1000px;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    transform-style: preserve-3d;
+    animation: float 12s infinite ease-in-out alternate;
+}
+
+/* Esfera Azul Pastel */
+.sphere-blue {
+    top: 10%;
+    left: 10%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--pastel-blue), #4a90e2 80%, #1c3b6f);
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6), 0 0 30px rgba(162, 210, 255, 0.3);
+}
+
+/* Esfera Verde Pastel */
+.sphere-green {
+    bottom: 15%;
+    right: 8%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--pastel-green), #52b788 80%, #1b4332);
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6), 0 0 30px rgba(183, 228, 199, 0.3);
+    animation-delay: -4s;
+}
+
+/* Cubos 3D */
+.cube-pink, .cube-blue {
+    width: 100px;
+    height: 100px;
+}
+
+.cube-pink {
+    top: 60%;
+    left: 5%;
+    animation: rotateCube 18s infinite linear, float 10s infinite ease-in-out alternate;
+}
+
+.cube-blue {
+    top: 15%;
+    right: 12%;
+    animation: rotateCube 22s infinite linear reverse, float 14s infinite ease-in-out alternate;
+}
+
+.face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    opacity: 0.85;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cube-pink .face {
+    background: linear-gradient(135deg, var(--pastel-pink), #ff6b8b);
+}
+
+.cube-blue .face {
+    background: linear-gradient(135deg, var(--pastel-blue), #64dfdf);
+}
+
+.front  { transform: translateZ(50px); }
+.back   { transform: rotateY(180deg) translateZ(50px); }
+.right  { transform: rotateY(90deg) translateZ(50px); }
+.left   { transform: rotateY(-90deg) translateZ(50px); }
+.top    { transform: rotateX(90deg) translateZ(50px); }
+.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-40px) rotate(15deg); }
+}
+
+@keyframes rotateCube {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* ==========================================================================
+   Overlay de Efeito Modal
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-speed) ease;
+}
+
+/* Ativa o overlay quando qualquer card entra em HOVER */
+.grid-container:hover ~ .modal-overlay,
+.grid-container:has(.card:hover) ~ .modal-overlay {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   Estrutura da Página & Header
+   ========================================================================== */
+.container {
+    position: relative;
+    z-index: 20;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--pastel-blue), var(--pastel-pink), var(--pastel-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   Grid & Cards com Efeito Modal
+   ========================================================================== */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    z-index: 11;
+    transition: transform var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.tips-list {
+    list-style: none;
+}
+
+.tips-list li {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.tips-list strong {
+    color: #fff;
+}
+
+/* Cores de Borda e Destaque nos Cards */
+.card-estudos:hover { border-color: var(--pastel-blue); }
+.card-trabalho:hover { border-color: var(--pastel-pink); }
+.card-hobbies:hover { border-color: var(--pastel-green); }
+.card-esportes:hover { border-color: var(--pastel-blue); }
+.card-saude:hover { border-color: var(--pastel-green); }
+.card-planejamento:hover { border-color: var(--pastel-pink); }
+
+/* --- EFEITO MODAL NO HOVER --- */
+.card:hover {
+    z-index: 100;
+    transform: scale(1.08) translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive ajustável */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.3rem;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .card:hover {
+        transform: scale(1.03) translateY(-5px);
+    }
+}
